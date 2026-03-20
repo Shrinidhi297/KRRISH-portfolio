@@ -21,10 +21,7 @@ export default function Footer() {
             </p>
             <div className="footer__socials">
               {[
-                { label: 'YouTube', href: '#' },
                 { label: 'Instagram', href: '#' },
-                { label: 'Behance', href: '#' },
-                { label: 'Vimeo', href: '#' },
               ].map(s => (
                 <a key={s.label} href={s.href} id={`footer-${s.label.toLowerCase()}`} className="footer__social">{s.label}</a>
               ))}
