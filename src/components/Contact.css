@@ -20,86 +20,117 @@
   pointer-events: none;
 }
 
-/* Grid */
-.contact__grid {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: clamp(40px, 8vw, 120px);
-  align-items: start;
+/* Grid & Layout */
+.contact__wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Info */
 .contact__title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(28px, 4vw, 52px);
+  font-size: clamp(32px, 5vw, 64px);
   font-weight: 600;
   color: var(--white);
-  line-height: 1.2;
-  margin-bottom: 20px;
+  line-height: 1.1;
+  margin-bottom: 24px;
 }
 
 .contact__sub {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(16px, 1.6vw, 20px);
+  font-size: clamp(18px, 2vw, 24px);
   color: rgba(245,240,232,0.55);
-  line-height: 1.75;
-  margin-bottom: 44px;
+  line-height: 1.6;
+  margin-bottom: 64px;
+  max-width: 600px;
 }
 
-.contact__details {
+/* Details Grid */
+.contact__details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  width: 100%;
+  margin-bottom: 64px;
+}
+
+.contact__card {
+  background: rgba(201,168,76,0.03);
+  border: 1px solid rgba(201,168,76,0.12);
+  padding: 40px 32px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin-bottom: 40px;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.contact__detail {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
+.contact__card:hover {
+  background: rgba(201,168,76,0.06);
+  border-color: rgba(201,168,76,0.3);
+  transform: translateY(-5px);
 }
 
-.contact__detail-icon {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(201,168,76,0.2);
+.contact__card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(201,168,76,0.6);
-  flex-shrink: 0;
+  color: #C9A84C;
 }
 
-.contact__detail-label {
+.contact__card-label {
   font-family: 'Inter', sans-serif;
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.3em;
-  color: rgba(201,168,76,0.45);
+  color: rgba(201,168,76,0.5);
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
-.contact__detail-value {
+.contact__card-value {
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: rgba(245,240,232,0.7);
+  font-size: clamp(14px, 1.2vw, 18px);
+  color: var(--white);
   text-decoration: none;
+  font-weight: 300;
   transition: color 0.3s;
 }
 
-a.contact__detail-value:hover { color: #C9A84C; }
+.contact__card-value:hover {
+  color: #E8C97A;
+}
 
-/* Availability */
+/* Footer & Availability */
+.contact__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
 .contact__availability {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  border: 1px solid rgba(201,168,76,0.2);
-  padding: 10px 18px;
+  gap: 12px;
+  background: rgba(74, 222, 128, 0.05);
+  border: 1px solid rgba(74, 222, 128, 0.15);
+  padding: 12px 24px;
   font-family: 'Inter', sans-serif;
   font-size: 11px;
-  letter-spacing: 0.12em;
-  color: rgba(245,240,232,0.5);
+  letter-spacing: 0.1em;
+  color: #4ade80;
+  text-transform: uppercase;
 }
 
 .contact__availability-dot {
@@ -107,139 +138,30 @@ a.contact__detail-value:hover { color: #C9A84C; }
   height: 8px;
   border-radius: 50%;
   background: #4ade80;
-  box-shadow: 0 0 8px rgba(74,222,128,0.6);
+  box-shadow: 0 0 10px rgba(74,222,128,0.5);
   animation: pulse-dot 2s ease-in-out infinite;
-  flex-shrink: 0;
+}
+
+.contact__response {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: rgba(245,240,232,0.3);
+  letter-spacing: 0.05em;
 }
 
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(0.8); }
+  50% { opacity: 0.5; transform: scale(0.8); }
 }
 
-/* Form */
-.contact__form-wrapper {
-  background: rgba(201,168,76,0.03);
-  border: 1px solid rgba(201,168,76,0.12);
-  padding: clamp(28px, 4vw, 52px);
+@media (max-width: 640px) {
+  .contact__details-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .contact__card {
+    padding: 32px 24px;
+  }
 }
 
-.contact__form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.contact__form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.contact__field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.contact__field label {
-  font-family: 'Inter', sans-serif;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: rgba(201,168,76,0.5);
-}
-
-.contact__field input,
-.contact__field select,
-.contact__field textarea {
-  background: rgba(245,240,232,0.03);
-  border: 1px solid rgba(201,168,76,0.14);
-  color: var(--white);
-  font-family: 'Inter', sans-serif;
-  font-size: 13.5px;
-  padding: 14px 16px;
-  outline: none;
-  transition: all 0.3s;
-  border-radius: 0;
-  -webkit-appearance: none;
-  appearance: none;
-  resize: none;
-  width: 100%;
-}
-
-.contact__field input::placeholder,
-.contact__field textarea::placeholder {
-  color: rgba(245,240,232,0.2);
-}
-
-.contact__field select {
-  color: rgba(245,240,232,0.6);
-  cursor: pointer;
-}
-
-.contact__field select option {
-  background: #0d0d0d;
-  color: var(--white);
-}
-
-.contact__field input:focus,
-.contact__field select:focus,
-.contact__field textarea:focus {
-  border-color: rgba(201,168,76,0.45);
-  background: rgba(245,240,232,0.04);
-  box-shadow: 0 0 0 1px rgba(201,168,76,0.12) inset;
-}
-
-.contact__submit {
-  width: 100%;
-  justify-content: center;
-  padding: 18px;
-  font-size: 12px;
-}
-
-.contact__submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Success state */
-.contact__success {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 20px;
-  padding: 60px 20px;
-}
-
-.contact__success-icon {
-  font-size: 48px;
-  color: #C9A84C;
-  filter: drop-shadow(0 0 20px rgba(201,168,76,0.4));
-  animation: spin-once 1s ease;
-}
-
-@keyframes spin-once {
-  from { transform: rotate(-180deg) scale(0); opacity: 0; }
-  to { transform: rotate(0) scale(1); opacity: 1; }
-}
-
-.contact__success h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  color: var(--white);
-}
-
-.contact__success p {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  color: rgba(245,240,232,0.55);
-  line-height: 1.7;
-  max-width: 360px;
-}
-
-@media (max-width: 900px) {
-  .contact__grid { grid-template-columns: 1fr; }
-  .contact__form-row { grid-template-columns: 1fr; }
-}
