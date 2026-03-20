@@ -260,7 +260,20 @@
   color: #C9A84C;
 }
 
-@media (max-width: 900px) {
-  .about__grid { grid-template-columns: 1fr; }
-  .about__visual { max-width: 500px; margin: 0 auto; margin-bottom: 60px; }
+@media (max-width: 1024px) {
+  .about__grid { grid-template-columns: 1fr; gap: 80px; }
+  .about__visual { height: 400px; max-width: 500px; margin: 0 auto; }
+}
+
+@media (max-width: 768px) {
+  .about__heading { font-size: 32px; }
+  .about__visual { height: 320px; }
+  .about__values { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 2000px) {
+  .about__heading { font-size: 64px; }
+  .about__body { font-size: 24px; max-width: 900px; }
+  .about__value-title { font-size: 28px; }
+  .about__value-desc { font-size: 18px; }
 }

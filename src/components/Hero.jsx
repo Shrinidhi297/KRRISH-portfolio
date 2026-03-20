@@ -104,24 +104,25 @@ export default function Hero({ onShowreel }) {
         </motion.p>
 
         {/* Stats */}
-        <motion.div
-          className="hero__stats"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.1 }}
-        >
+        <div className="hero__stats">
           {[
-            { num: '200+', label: 'Projects Delivered' },
-            { num: '50+', label: 'Clients Worldwide' },
-            { num: '5+', label: 'Years Experience' },
+            { num: '50+', label: 'Projects Delivered' },
+            { num: '15+', label: 'Clients Worldwide' },
+            { num: '2+', label: 'Years Experience' },
             { num: '100%', label: 'Client Satisfaction' },
-          ].map(s => (
-            <div key={s.label} className="hero__stat">
+          ].map((s, i) => (
+            <motion.div
+              key={s.label}
+              className="hero__stat"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.1 + (i * 0.1), ease: [0.16, 1, 0.3, 1] }}
+            >
               <span className="hero__stat-num">{s.num}</span>
               <span className="hero__stat-label">{s.label}</span>
-            </div>
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         {/* CTAs */}
         <motion.div

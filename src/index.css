@@ -102,6 +102,31 @@ body {
   margin: 0 auto;
 }
 
+/* ─── Responsive Adjustments ───────────────────── */
+@media (max-width: 1400px) {
+  :root { --section-padding: 120px; }
+}
+
+@media (max-width: 1024px) {
+  :root { --section-padding: 100px; }
+}
+
+@media (max-width: 768px) {
+  :root { --section-padding: 80px; }
+  .container { padding: 0 24px; }
+}
+
+@media (max-width: 480px) {
+  :root { --section-padding: 60px; }
+  .container { padding: 0 20px; }
+}
+
+/* TV & Ultra-wide */
+@media (min-width: 2500px) {
+  .container { max-width: 1800px; }
+  :root { --section-padding: 240px; }
+}
+
 /* ─── Noise Texture ─────────────────────────────── */
 .noise::after {
   content: '';
@@ -109,5 +134,5 @@ body {
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
   pointer-events: none;
-  z-index: 9999;
+  z-index: 10000;
 }

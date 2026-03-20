@@ -7,6 +7,11 @@ export default function CustomCursor() {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
+  // Snappy but smooth spring config
+  const springConfig = { damping: 25, stiffness: 250, mass: 0.5 };
+  const springX = useSpring(mouseX, springConfig);
+  const springY = useSpring(mouseY, springConfig);
+
   useEffect(() => {
     const handleMouseMove = (e) => {
       mouseX.set(e.clientX);
@@ -24,8 +29,8 @@ export default function CustomCursor() {
     <motion.div
       className={`custom-cursor ${isPointer ? 'is-pointer' : ''}`}
       style={{
-        x: mouseX,
-        y: mouseY,
+        x: springX,
+        y: springY,
       }}
     >
       <div className="cursor__arrow">

@@ -1,93 +1,107 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
+import { supabase } from '../api/supabase';
 import './Portfolio.css';
+import './ShowreelModal.css';
 
-const categories = ['All', 'Cinematic', 'Commercial', 'Music Video', 'Documentary'];
-
-const projects = [
+const fallbackProjects = [
   {
-    id: 'p1',
-    title: 'Echoes of Eternity',
-    category: 'Cinematic',
-    year: '2024',
-    duration: '12 min',
-    desc: 'A cinematic short film with moody, desaturated tones and seamless visual storytelling.',
-    tags: ['Color Grade', 'Editorial', 'Sound Design'],
+    id: 'p7',
+    title: 'Cinematic Atmosphere',
+    year: '2025',
+    duration: '2:15 min',
+    desc: 'An exploration of moody lighting and deep textures in a cinematic environment.',
+    tags: ['Color Grade', 'Cinematography', 'Sound Design'],
+    video: '/assets/videos/cinematic_1.mov',
     gradient: 'linear-gradient(135deg, #1a1205, #2d1e0a, #3d2810)',
     accent: '#C9A84C',
     symbol: '◈',
   },
   {
-    id: 'p2',
-    title: 'Noir Series — Ep. 01',
-    category: 'Documentary',
-    year: '2024',
-    duration: '28 min',
-    desc: 'High-contrast black and white documentary with deep shadow work and theatrical cuts.',
-    tags: ['B&W Grade', 'Long Form', 'Narrative'],
+    id: 'p8',
+    title: 'CGT Masterclass',
+    year: '2025',
+    duration: '1:45 min',
+    desc: 'High-end motion graphics and visual effects showcasing technical precision.',
+    tags: ['VFX', 'Motion Graphics', 'Editing'],
+    video: '/assets/videos/cgt.mov',
     gradient: 'linear-gradient(135deg, #0d0d0d, #1a1a1a, #111)',
     accent: '#E8C97A',
     symbol: '◉',
   },
   {
-    id: 'p3',
-    title: 'Velocity Campaign',
-    category: 'Commercial',
+    id: 'p9',
+    title: 'Techstore Showcase',
     year: '2025',
-    duration: '60 sec',
-    desc: 'A high-energy automotive brand commercial with kinetic transitions and bold motion graphics.',
-    tags: ['Motion Graphics', 'VFX', 'Brand'],
+    duration: '55 sec',
+    desc: 'A dynamic commercial for a modern tech retailer with kinetic editing patterns.',
+    tags: ['Commercial', 'Fast Cuts', 'Branding'],
+    video: '/assets/videos/techstore.mov',
     gradient: 'linear-gradient(135deg, #0f0a1a, #150d24, #1a1020)',
     accent: '#C9A84C',
     symbol: '◇',
-  },
-  {
-    id: 'p4',
-    title: 'Golden Hour',
-    category: 'Music Video',
-    year: '2025',
-    duration: '4 min',
-    desc: 'Warm analog-inspired color work on a narrative music video shot across multiple continents.',
-    tags: ['LUT Design', 'Musical Sync', 'Travel'],
-    gradient: 'linear-gradient(135deg, #2d1a05, #3d2810, #4a3018)',
-    accent: '#E8C97A',
-    symbol: '✦',
-  },
-  {
-    id: 'p5',
-    title: 'Skyward Brand Film',
-    category: 'Commercial',
-    year: '2025',
-    duration: '3 min',
-    desc: 'Corporate brand film with elegant motion titles, clean grades, and aspirational storytelling.',
-    tags: ['Brand Film', 'Titles', 'Corporate'],
-    gradient: 'linear-gradient(135deg, #080f1a, #0d1520, #101825)',
-    accent: '#C9A84C',
-    symbol: '◈',
-  },
-  {
-    id: 'p6',
-    title: 'Pulse — Live Concert',
-    category: 'Cinematic',
-    year: '2024',
-    duration: '90 min',
-    desc: 'Multi-camera live concert edit with real-time energy matching and immersive sound mix.',
-    tags: ['Multi-cam', 'Live Music', 'Color'],
-    gradient: 'linear-gradient(135deg, #1a050a, #2a0a12, #1e0508)',
-    accent: '#E8C97A',
-    symbol: '◉',
   },
 ];
 
 export default function Portfolio() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [hovered, setHovered] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [projects, setProjects] = useState(fallbackProjects);
 
-  const filtered = activeCategory === 'All'
-    ? projects
-    : projects.filter(p => p.category === activeCategory);
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        const { data, error } = await supabase
+          .from('projects')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        if (data && data.length > 0) {
+          // Map DB columns to our UI keys if they differ
+          setProjects(data.map(p => ({
+            ...p,
+            video: p.video_url || p.video, // Support both naming conventions
+          })));
+        }
+      } catch (err) {
+        console.error("Error fetching projects from Supabase:", err.message);
+      }
+    }
+    
+    // Only fetch if a valid URL is provided in the client
+    if (!supabase.supabaseUrl.includes('YOUR_PROJECT_ID')) {
+      fetchProjects();
+    }
+  }, []);
+
+  const handleMouseEnter = (e) => {
+    const video = e.currentTarget.querySelector('video');
+    if (video) {
+      video.play().catch(err => console.log("Video play interrupted", err));
+    }
+  };
+
+  const handleMouseLeave = (e) => {
+    const video = e.currentTarget.querySelector('video');
+    if (video) {
+      video.pause();
+    }
+  };
+
+  const openProject = (project) => {
+    setSelectedProject(project);
+    document.body.style.overflow = 'hidden';
+    document.body.classList.add('modal-open');
+  };
+
+  const closeProject = () => {
+    setSelectedProject(null);
+    document.body.style.overflow = '';
+    document.body.classList.remove('modal-open');
+  };
 
   return (
     <section id="portfolio" className="portfolio" ref={ref}>
@@ -111,29 +125,10 @@ export default function Portfolio() {
           </h2>
         </motion.div>
 
-        {/* Filter Pills */}
-        <motion.div
-          className="portfolio__filters"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2 }}
-        >
-          {categories.map(cat => (
-            <button
-              key={cat}
-              id={`filter-${cat.toLowerCase().replace(' ', '-')}`}
-              className={`portfolio__filter ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
-        </motion.div>
-
         {/* Cards Grid */}
         <motion.div className="portfolio__grid" layout>
           <AnimatePresence mode="popLayout">
-            {filtered.map((p, i) => (
+            {projects.map((p, i) => (
               <motion.article
                 key={p.id}
                 className="project-card"
@@ -142,13 +137,27 @@ export default function Portfolio() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
-                onMouseEnter={() => setHovered(p.id)}
-                onMouseLeave={() => setHovered(null)}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => openProject(p)}
               >
                 {/* Visual */}
                 <div className="project-card__visual" style={{ background: p.gradient }}>
-                  <div className="project-card__visual-noise" />
-                  <span className="project-card__symbol" style={{ color: p.accent }}>{p.symbol}</span>
+                  {p.video ? (
+                    <video
+                      src={p.video}
+                      className="project-card__video"
+                      muted
+                      loop
+                      playsInline
+                    />
+                  ) : (
+                    <>
+                      <div className="project-card__visual-noise" />
+                      <span className="project-card__symbol" style={{ color: p.accent }}>{p.symbol}</span>
+                    </>
+                  )}
+                  
                   <div className="project-card__overlay" />
                   <div className="project-card__meta-overlay">
                     <span className="project-card__duration">{p.duration}</span>
@@ -159,7 +168,7 @@ export default function Portfolio() {
                 {/* Info */}
                 <div className="project-card__info">
                   <div className="project-card__info-top">
-                    <span className="project-card__cat">{p.category}</span>
+                    {/* Category removed as per request */}
                     <div className="project-card__arrow">
                       <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
@@ -198,6 +207,57 @@ export default function Portfolio() {
           </button>
         </motion.div>
       </div>
+
+      {/* Project Video Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            className="showreel-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="showreel-modal__overlay" onClick={closeProject} />
+            <motion.div
+              className="showreel-modal__content"
+              initial={{ scale: 0.9, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 50 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            >
+              <button className="showreel-modal__close" onClick={closeProject}>
+                <X size={24} />
+              </button>
+              <div className="showreel-modal__player">
+                {selectedProject.video ? (
+                  <video
+                    src={selectedProject.video}
+                    controls
+                    autoPlay
+                    className="portfolio-modal__video"
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  />
+                ) : (
+                  <div className="showreel-modal__placeholder">
+                    <div className="showreel-modal__placeholder-icon">▶</div>
+                    <p>{selectedProject.title}</p>
+                    <span>[ VIDEO SOURCE PENDING ]</span>
+                  </div>
+                )}
+              </div>
+              <div className="showreel-modal__caption">
+                <h3>{selectedProject.title}</h3>
+                <p>{selectedProject.desc}</p>
+                <div className="project-card__tags" style={{ marginTop: '16px' }}>
+                  {selectedProject.tags.map(t => (
+                    <span key={t} className="project-card__tag" style={{ color: '#C9A84C', borderColor: 'rgba(201, 168, 76, 0.2)' }}>{t}</span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

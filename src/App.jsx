@@ -6,7 +6,6 @@ import About from './components/About';
 import Services from './components/Services';
 import Portfolio from './components/Portfolio';
 import Process from './components/Process';
-import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
@@ -58,6 +57,11 @@ export default function App() {
 
   useEffect(() => {
     document.body.style.overflow = (loading || showreelOpen) ? 'hidden' : '';
+    if (showreelOpen) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
   }, [loading, showreelOpen]);
 
   return (
@@ -78,7 +82,6 @@ export default function App() {
             <Services />
             <Portfolio />
             <Process />
-            <Testimonials />
             <Contact />
           </main>
           <Footer />

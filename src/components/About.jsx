@@ -59,7 +59,7 @@ export default function About() {
               </div>
             </div>
             <div className="about__visual-badge">
-              <span className="avb__num">5+</span>
+              <span className="avb__num">2+</span>
               <span className="avb__text">Years of<br />Excellence</span>
             </div>
           </motion.div>
@@ -79,7 +79,7 @@ export default function About() {
             </motion.p>
 
             <motion.p className="about__body" custom={2} variants={variants} initial="hidden" animate={inView ? "visible" : "hidden"}>
-              We blend technical mastery with creative intuition — wielding tools like DaVinci Resolve, Adobe Premiere, and After Effects to craft visuals that don't just look stunning, they feel visceral.
+              We blend technical mastery with creative intuition — wielding tools like Adobe Premiere, After Effects, and CapCut to craft visuals that don't just look stunning, they feel visceral.
             </motion.p>
 
             <motion.div className="about__values" custom={3} variants={variants} initial="hidden" animate={inView ? "visible" : "hidden"}>
@@ -98,7 +98,7 @@ export default function About() {
               <div className="about__tools">
                 <span className="about__tools-label">Our Toolkit</span>
                 <div className="about__tools-list">
-                  {['DaVinci Resolve', 'Adobe Premiere', 'After Effects', 'Cinema 4D', 'FL Studio'].map(t => (
+                  {['Adobe Premiere', 'After Effects', 'CapCut'].map(t => (
                     <span key={t} className="about__tool">{t}</span>
                   ))}
                 </div>
