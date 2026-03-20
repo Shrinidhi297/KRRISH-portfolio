@@ -1,0 +1,108 @@
+.showreel-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.showreel-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.showreel-modal__content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1100px;
+  background: #0d0d0d;
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+.showreel-modal__close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.showreel-modal__close:hover {
+  opacity: 1;
+}
+
+.showreel-modal__player {
+  aspect-ratio: 16/9;
+  width: 100%;
+  background: #050505;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.showreel-modal__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  opacity: 0.3;
+  text-align: center;
+}
+
+.showreel-modal__placeholder-icon {
+  font-size: 64px;
+}
+
+.showreel-modal__placeholder p {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  font-weight: 600;
+}
+
+.showreel-modal__placeholder span {
+  font-family: 'Inter', sans-serif;
+  font-size: 8px;
+  color: #C9A84C;
+}
+
+.showreel-modal__caption {
+  padding: 32px 40px;
+  border-top: 1px solid rgba(201, 168, 76, 0.1);
+  background: rgba(201, 168, 76, 0.02);
+}
+
+.showreel-modal__caption h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: #E8C97A;
+  margin-bottom: 8px;
+}
+
+.showreel-modal__caption p {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 600px;
+}
+
+@media (max-width: 800px) {
+  .showreel-modal { padding: 0px; }
+  .showreel-modal__content { border: none; }
+  .showreel-modal__close { top: 20px; right: 20px; z-index: 20; color: #C9A84C; background: rgba(0,0,0,0.5); border-radius: 50%; padding: 8px; }
+  .showreel-modal__caption { padding: 24px; }
+}
