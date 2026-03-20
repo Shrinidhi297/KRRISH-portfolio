@@ -30,7 +30,8 @@ const localVideos = [
     duration: '1:45 min',
     desc: 'High-end motion graphics and visual effects showcasing technical precision.',
     tags: ['VFX', 'Motion Graphics', 'Editing'],
-    symbol: '◉'
+    symbol: '◉',
+    overrideVideoUrl: 'https://drive.google.com/uc?export=download&id=1n6RKH0Co3k__jbX821kJ6rCO5e-XoA00'
   },
   {
     path: 'public/assets/videos/techstore.mov',
@@ -48,27 +49,32 @@ async function migrate() {
 
   for (const video of localVideos) {
     try {
-      if (!fs.existsSync(video.path)) {
-        console.warn(`⚠️ Skipping ${video.path} - File not found locally.`);
-        continue;
+      let publicUrl = video.overrideVideoUrl;
+
+      if (!publicUrl) {
+        if (!fs.existsSync(video.path)) {
+          console.warn(`⚠️ Skipping ${video.path} - File not found locally.`);
+          continue;
+        }
+
+        const fileName = path.basename(video.path);
+        const fileBuffer = fs.readFileSync(video.path);
+
+        console.log(`📤 Uploading ${fileName}...`);
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('videos')
+          .upload(fileName, fileBuffer, {
+            contentType: 'video/quicktime',
+            upsert: true
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl: storageUrl } } = supabase.storage
+          .from('videos')
+          .getPublicUrl(fileName);
+        publicUrl = storageUrl;
       }
-
-      const fileName = path.basename(video.path);
-      const fileBuffer = fs.readFileSync(video.path);
-
-      console.log(`📤 Uploading ${fileName}...`);
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('videos')
-        .upload(fileName, fileBuffer, {
-          contentType: 'video/quicktime',
-          upsert: true
-        });
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('videos')
-        .getPublicUrl(fileName);
 
       console.log(`📥 Inserting ${video.title} metadata into database...`);
       const { error: dbError } = await supabase
