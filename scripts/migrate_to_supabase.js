@@ -31,7 +31,7 @@ const localVideos = [
     desc: 'High-end motion graphics and visual effects showcasing technical precision.',
     tags: ['VFX', 'Motion Graphics', 'Editing'],
     symbol: '◉',
-    overrideVideoUrl: 'https://drive.google.com/uc?export=download&id=1n6RKH0Co3k__jbX821kJ6rCO5e-XoA00'
+    overrideVideoUrl: 'https://kizwqxdcdghelwksfbto.supabase.co/storage/v1/object/public/videos/cgt_final.mp4'
   },
   {
     path: 'public/assets/videos/techstore.mov',

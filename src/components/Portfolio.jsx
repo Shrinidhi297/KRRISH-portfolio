@@ -25,7 +25,7 @@ const fallbackProjects = [
     duration: '1:45 min',
     desc: 'High-end motion graphics and visual effects showcasing technical precision.',
     tags: ['VFX', 'Motion Graphics', 'Editing'],
-    video: '/assets/videos/cgt.mov',
+    video: 'https://kizwqxdcdghelwksfbto.supabase.co/storage/v1/object/public/videos/cgt_final.mp4',
     gradient: 'linear-gradient(135deg, #0d0d0d, #1a1a1a, #111)',
     accent: '#E8C97A',
     symbol: '◉',
